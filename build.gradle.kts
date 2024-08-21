@@ -60,6 +60,9 @@ dependencies {
     // Logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    // Dependency Check
+    implementation("org.owasp:dependency-check-gradle:10.0.3")
+
     // Testing
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
@@ -67,8 +70,16 @@ dependencies {
 
 dependencyCheck {
     format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
-    outputDirectory = layout.buildDirectory.dir("reports/dependency-check").get().asFile.path
-    scanConfigurations = listOf("runtimeClasspath")
-    suppressionFile = layout.projectDirectory.file("dependency-check-suppressions.xml").asFile.path
+
+    suppressionFile = "dependency-check-suppressions.xml"
     failBuildOnCVSS = 7.0f
+    analyzers(closureOf<org.owasp.dependencycheck.gradle.extension.AnalyzerExtension> {
+        assemblyEnabled = false
+    })
+}
+
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_21)
+    }
 }
