@@ -1,9 +1,8 @@
 package legal.prameya.lexihub.plugins
 
-import com.codahale.metrics.*
+import com.codahale.metrics.Slf4jReporter
 import io.ktor.server.application.*
 import io.ktor.server.metrics.dropwizard.*
-import io.ktor.server.response.*
 import java.util.concurrent.TimeUnit
 
 fun Application.configureMonitoring() {
