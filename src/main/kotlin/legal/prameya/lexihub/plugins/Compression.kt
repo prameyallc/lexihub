@@ -1,7 +1,11 @@
 package legal.prameya.lexihub.plugins
 
-import io.ktor.server.application.*
-import io.ktor.server.plugins.compression.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.plugins.compression.Compression
+import io.ktor.server.plugins.compression.deflate
+import io.ktor.server.plugins.compression.gzip
+import io.ktor.server.plugins.compression.minimumSize
 
 fun Application.configureCompression() {
     install(Compression) {
@@ -10,7 +14,6 @@ fun Application.configureCompression() {
         }
         deflate {
             priority = 10.0
-
             minimumSize(1024) // condition
         }
     }

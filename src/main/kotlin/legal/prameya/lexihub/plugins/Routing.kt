@@ -1,17 +1,21 @@
 package legal.prameya.lexihub.plugins
 
 import io.github.smiley4.ktorswaggerui.SwaggerUI
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.webjars.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.serialization.ContentConvertException
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.application.install
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
+import io.ktor.server.webjars.Webjars
 import legal.prameya.lexihub.client
 import legal.prameya.lexihub.externalservices.ExternalService
-import legal.prameya.lexihub.models.GenerateRequest
+import legal.prameya.lexihub.models.ApiRequest
 
 fun Application.configureRouting(externalService: ExternalService) {
     install(Webjars) {
@@ -49,10 +53,10 @@ fun Application.configureRouting(externalService: ExternalService) {
         // Route for Ollama Prompt Generation
         post("/ollama/generate") {
             try {
-                val request = call.receive<GenerateRequest>()
+                val request = call.receive<ApiRequest>()
                 val ollamaResponse = externalService.fetchOllamaResponse(request.model, request.prompt, request.stream)
                 call.respond(ollamaResponse)
-            } catch (e: ContentTransformationException) {
+            } catch (e: ContentConvertException) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid request format: ${e.message}")
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.InternalServerError, "Error: ${e.message}")

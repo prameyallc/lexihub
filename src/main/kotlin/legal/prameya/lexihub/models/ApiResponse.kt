@@ -2,11 +2,11 @@ package legal.prameya.lexihub.models
 
 import kotlinx.serialization.Serializable
 
-class ApiResponses {
+class ApiResponse {
     @Serializable
     data class OllamaResponse(
         val model: String,
-        val created_at: String,
+        val createdAt: String,
         val response: String,
         val done: Boolean,
     )
@@ -21,7 +21,7 @@ class ApiResponses {
         @Serializable
         data class CourtCase(
             val id: Int,
-            val absolute_url: String,
+            val absoluteUrl: String,
             val caseName: String,
             val docketNumber: String,
             val dateArgued: String?,
@@ -71,7 +71,7 @@ class ApiResponses {
 
         @Serializable
         data class Sponsor(
-            val bioguideId: String,
+            val bioGuideId: String,
             val fullName: String,
             val party: String,
             val state: String,
