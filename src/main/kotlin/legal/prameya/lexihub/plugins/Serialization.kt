@@ -8,11 +8,11 @@ import kotlinx.serialization.json.Json
 
 fun Application.configureSerialization() {
     install(ContentNegotiation) {
-        json(Json {
-            prettyPrint = true
-            isLenient = true
-        })
-    }
-    routing {
+        json(
+            Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            },
+        )
     }
 }

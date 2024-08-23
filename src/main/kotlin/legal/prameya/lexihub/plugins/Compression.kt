@@ -12,7 +12,6 @@ fun Application.configureCompression() {
             priority = 10.0
 
             minimumSize(1024) // condition
-
         }
     }
 }

@@ -5,7 +5,6 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.hsts.*
 
 fun Application.configureHTTP() {
-
     install(DefaultHeaders) {
         header("X-Engine", "Ktor")
     }

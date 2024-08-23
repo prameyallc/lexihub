@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit
 
 fun Application.configureMonitoring() {
     install(DropwizardMetrics) {
-        Slf4jReporter.forRegistry(registry)
+        Slf4jReporter
+            .forRegistry(registry)
             .outputTo(this@configureMonitoring.log)
             .convertRatesTo(TimeUnit.SECONDS)
             .convertDurationsTo(TimeUnit.MILLISECONDS)
