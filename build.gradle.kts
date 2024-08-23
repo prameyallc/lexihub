@@ -7,6 +7,7 @@ plugins {
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
     id("org.owasp.dependencycheck") version "10.0.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 group = "legal.prameya"
@@ -82,6 +83,11 @@ dependencyCheck {
             assemblyEnabled = false
         },
     )
+}
+
+ktlint {
+    verbose = true
+    outputToConsole = true
 }
 
 ktor {
