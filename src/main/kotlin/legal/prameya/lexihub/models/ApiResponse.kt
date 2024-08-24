@@ -2,14 +2,13 @@ package legal.prameya.lexihub.models
 
 import kotlinx.serialization.Serializable
 
-class ApiResponses {
+class ApiResponse {
     @Serializable
     data class OllamaResponse(
-        val id: String,
         val model: String,
-        val created_at: String,
+        val createdAt: String,
         val response: String,
-        val done: Boolean
+        val done: Boolean,
     )
 
     @Serializable
@@ -17,18 +16,18 @@ class ApiResponses {
         val count: Int,
         val next: String?,
         val previous: String?,
-        val results: List<CourtCase>
+        val results: List<CourtCase>,
     ) {
         @Serializable
         data class CourtCase(
             val id: Int,
-            val absolute_url: String,
+            val absoluteUrl: String,
             val caseName: String,
             val docketNumber: String,
             val dateArgued: String?,
             val dateReargued: String?,
             val dateDecided: String,
-            val court: String
+            val court: String,
         )
     }
 
@@ -36,13 +35,13 @@ class ApiResponses {
     data class RegulationsGovResponse(
         val totalElements: Int,
         val totalPages: Int,
-        val data: List<Regulation>
+        val data: List<Regulation>,
     ) {
         @Serializable
         data class Regulation(
             val id: String,
             val type: String,
-            val attributes: RegulationAttributes
+            val attributes: RegulationAttributes,
         )
 
         @Serializable
@@ -51,14 +50,14 @@ class ApiResponses {
             val docketId: String,
             val agencyId: String,
             val title: String,
-            val summary: String
+            val summary: String,
         )
     }
 
     @Serializable
     data class CongressGovResponse(
         val congress: Int,
-        val bills: List<Bill>
+        val bills: List<Bill>,
     ) {
         @Serializable
         data class Bill(
@@ -67,28 +66,28 @@ class ApiResponses {
             val title: String,
             val introducedDate: String,
             val sponsors: List<Sponsor>,
-            val latestAction: Action
+            val latestAction: Action,
         )
 
         @Serializable
         data class Sponsor(
-            val bioguideId: String,
+            val bioGuideId: String,
             val fullName: String,
             val party: String,
-            val state: String
+            val state: String,
         )
 
         @Serializable
         data class Action(
             val actionDate: String,
-            val text: String
+            val text: String,
         )
     }
 
     @Serializable
     data class AgencyApiResponse(
         val status: String,
-        val data: List<AgencyData>
+        val data: List<AgencyData>,
     ) {
         @Serializable
         data class AgencyData(
@@ -96,8 +95,7 @@ class ApiResponses {
             val name: String,
             val acronym: String,
             val website: String,
-            val description: String
+            val description: String,
         )
     }
-
 }
