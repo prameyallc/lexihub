@@ -7,14 +7,18 @@ import io.ktor.server.plugins.compression.deflate
 import io.ktor.server.plugins.compression.gzip
 import io.ktor.server.plugins.compression.minimumSize
 
+const val DEFLATE_MINIMUM_SIZE = 1024L
+const val GZIP_PRIORITY = 1.0
+const val DEFLATE_PRIORITY = 10.0
+
 fun Application.configureCompression() {
     install(Compression) {
         gzip {
-            priority = 1.0
+            priority = GZIP_PRIORITY
         }
         deflate {
-            priority = 10.0
-            minimumSize(1024) // condition
+            priority = DEFLATE_PRIORITY
+            minimumSize(DEFLATE_MINIMUM_SIZE)
         }
     }
 }

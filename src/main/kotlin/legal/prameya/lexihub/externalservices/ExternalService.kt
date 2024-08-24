@@ -1,15 +1,10 @@
 package legal.prameya.lexihub.externalservices
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.header
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import legal.prameya.lexihub.models.ApiRequest
 import legal.prameya.lexihub.models.ApiResponse
@@ -42,7 +37,11 @@ class ExternalService(
     suspend fun fetchRegulationsGovData(): ApiResponse.RegulationsGovResponse =
         client.get("https://www.regulations.gov/api/endpoint").body()
 
-    suspend fun fetchCongressGovData(): ApiResponse.CongressGovResponse = client.get("https://www.congress.gov/api/endpoint").body()
+    suspend fun fetchCongressGovData(): ApiResponse.CongressGovResponse =
+        client
+            .get(
+                "https://www.congress.gov/api/endpoint",
+            ).body()
 
     suspend fun fetchAgencyData(): ApiResponse.AgencyApiResponse =
         client

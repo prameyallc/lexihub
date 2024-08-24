@@ -17,8 +17,13 @@ import legal.prameya.lexihub.plugins.configureMonitoring
 import legal.prameya.lexihub.plugins.configureRateLimiting
 import legal.prameya.lexihub.plugins.configureRouting
 import legal.prameya.lexihub.plugins.configureSerialization
+import legal.prameya.lexihub.plugins.configureSwaggerUI
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
+
+const val REQUEST_TIMEOUT = 300000L
+const val CONNECT_TIMEOUT = 300000L
+const val SOCKET_TIMEOUT = 300000L
 
 @Suppress("unused") // Referenced in application.conf
 fun Application.module() {
@@ -31,6 +36,7 @@ fun Application.module() {
     configureLogging()
     configureRateLimiting()
     configureCaching()
+    configureSwaggerUI()
 }
 
 val client =
@@ -39,9 +45,9 @@ val client =
             json()
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 300000 // 5 minutes
-            connectTimeoutMillis = 300000 // 5 minutes
-            socketTimeoutMillis = 300000 // 5 minutes
+            requestTimeoutMillis = REQUEST_TIMEOUT // 5 minutes
+            connectTimeoutMillis = CONNECT_TIMEOUT // 5 minutes
+            socketTimeoutMillis = SOCKET_TIMEOUT // 5 minutes
         }
     }
 

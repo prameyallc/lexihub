@@ -1,6 +1,5 @@
 package legal.prameya.lexihub.plugins
 
-import io.github.smiley4.ktorswaggerui.SwaggerUI
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.ContentConvertException
 import io.ktor.server.application.Application
@@ -20,21 +19,6 @@ import legal.prameya.lexihub.models.ApiRequest
 fun Application.configureRouting(externalService: ExternalService) {
     install(Webjars) {
         path = "/webjars" // defaults to /webjars
-    }
-    install(SwaggerUI) {
-        swagger {
-            swaggerUrl = "swagger-ui"
-            forwardRoot = true
-        }
-        info {
-            title = "LexiHub API"
-            version = "latest"
-            description = "API for all publicly available sources of law in the United States"
-        }
-        server {
-            url = "http://localhost:8080"
-            description = "Development Server"
-        }
     }
     routing {
         // Route for Ollama API

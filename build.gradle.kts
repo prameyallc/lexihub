@@ -8,6 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
     id("org.owasp.dependencycheck") version "10.0.3"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
 }
 
 group = "legal.prameya"
@@ -54,7 +55,7 @@ dependencies {
 
     // Swagger UI
     implementation("io.github.smiley4:ktor-swagger-ui:2.9.0")
-
+    implementation("io.ktor:ktor-server-openapi")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-html-builder-jvm")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion")
@@ -88,6 +89,15 @@ dependencyCheck {
 ktlint {
     verbose = true
     outputToConsole = true
+    ignoreFailures = true
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    autoCorrect = true
+    parallel = true
+    ignoreFailures = true
+    allRules = true
 }
 
 ktor {

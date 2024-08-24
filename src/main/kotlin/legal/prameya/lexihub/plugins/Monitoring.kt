@@ -7,6 +7,8 @@ import io.ktor.server.application.log
 import io.ktor.server.metrics.dropwizard.DropwizardMetrics
 import java.util.concurrent.TimeUnit
 
+const val POLL_FREQUENCY = 30L
+
 fun Application.configureMonitoring() {
     install(DropwizardMetrics) {
         Slf4jReporter
@@ -15,6 +17,6 @@ fun Application.configureMonitoring() {
             .convertRatesTo(TimeUnit.SECONDS)
             .convertDurationsTo(TimeUnit.MILLISECONDS)
             .build()
-            .start(10, TimeUnit.SECONDS)
+            .start(POLL_FREQUENCY, TimeUnit.SECONDS)
     }
 }
