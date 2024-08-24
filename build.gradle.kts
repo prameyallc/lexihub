@@ -9,6 +9,8 @@ plugins {
     id("org.owasp.dependencycheck") version "10.0.3"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
+    id("net.researchgate.release") version "3.0.2"
+    id("org.jetbrains.kotlinx.kover") version "0.8.3"
 }
 
 group = "legal.prameya"
@@ -103,5 +105,11 @@ detekt {
 ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_21)
+    }
+}
+
+release {
+    git {
+        requireBranch.set("main")
     }
 }
