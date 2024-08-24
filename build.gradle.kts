@@ -1,23 +1,28 @@
-val kotlin_version: String by project
-val logback_version: String by project
-val kotlinx_html_version: String by project
+val kotlinVersion: String by project
+val logbackVersion: String by project
+val kotlinxHtmlVersion: String by project
 
 plugins {
     kotlin("jvm") version "2.0.10"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
     id("org.owasp.dependencycheck") version "10.0.3"
-
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
 }
 
 group = "legal.prameya"
 version = "0.0.1"
 
 application {
-    mainClass.set("legal.prameya.ApplicationKt")
+    mainClass.set("legal.prameya.lexihub.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+tasks.withType<JavaExec> {
+    args = listOf("-config=src/main/resources/application.conf")
 }
 
 repositories {
@@ -50,25 +55,53 @@ dependencies {
 
     // Swagger UI
     implementation("io.github.smiley4:ktor-swagger-ui:2.9.0")
-
-
+    implementation("io.ktor:ktor-server-openapi")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-html-builder-jvm")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinx_html_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion")
     implementation("io.ktor:ktor-server-netty-jvm")
 
     // Logging
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
+    // Dependency Check
+    implementation("org.owasp:dependency-check-gradle:10.0.3")
 
     // Testing
     testImplementation("io.ktor:ktor-server-test-host-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
 
 dependencyCheck {
-    format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
-    outputDirectory = layout.buildDirectory.dir("reports/dependency-check").get().asFile.path
-    scanConfigurations = listOf("runtimeClasspath")
-    suppressionFile = layout.projectDirectory.file("dependency-check-suppressions.xml").asFile.path
+    format =
+        org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL
+            .toString()
+
+    suppressionFile = "dependency-check-suppressions.xml"
     failBuildOnCVSS = 7.0f
+    analyzers(
+        closureOf<org.owasp.dependencycheck.gradle.extension.AnalyzerExtension> {
+            assemblyEnabled = false
+        },
+    )
+}
+
+ktlint {
+    verbose = true
+    outputToConsole = true
+    ignoreFailures = true
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    autoCorrect = true
+    parallel = true
+    ignoreFailures = true
+    allRules = true
+}
+
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_21)
+    }
 }
