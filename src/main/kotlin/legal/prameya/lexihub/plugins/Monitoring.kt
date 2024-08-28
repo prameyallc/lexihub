@@ -7,7 +7,7 @@ import io.ktor.server.application.log
 import io.ktor.server.metrics.dropwizard.DropwizardMetrics
 import java.util.concurrent.TimeUnit
 
-const val POLL_FREQUENCY = 30L
+const val POLL_FREQUENCY = 300L
 
 fun Application.configureMonitoring() {
     install(DropwizardMetrics) {

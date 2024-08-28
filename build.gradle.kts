@@ -27,6 +27,10 @@ tasks.withType<JavaExec> {
     args = listOf("-config=src/main/resources/application.conf")
 }
 
+tasks.withType<Jar> {
+    isZip64 = true
+}
+
 repositories {
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers") }
@@ -63,6 +67,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion")
     implementation("io.ktor:ktor-server-netty-jvm")
 
+    // Datastore
+    implementation("net.snowflake:snowflake-jdbc:3.18.0")
     // Logging
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
