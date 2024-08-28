@@ -68,6 +68,13 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     implementation("io.ktor:ktor-server-netty-jvm")
 
+    // Exposed ORM
+    implementation("org.jetbrains.exposed:exposed-core:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.41.1")
+    implementation("com.h2database:h2:2.1.214") // For testing purposes
+
     // Datastore
     implementation("net.snowflake:snowflake-jdbc:3.18.0")
     // Logging
