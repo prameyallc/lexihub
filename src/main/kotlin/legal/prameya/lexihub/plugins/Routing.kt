@@ -13,6 +13,8 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 import io.ktor.server.webjars.Webjars
 import legal.prameya.lexihub.client
+import legal.prameya.lexihub.datastore.SnowflakeClient
+import legal.prameya.lexihub.datastore.dao.SnowflakeDAO
 import legal.prameya.lexihub.externalservices.ExternalService
 import legal.prameya.lexihub.models.ApiRequest
 
@@ -29,6 +31,23 @@ fun Application.configureRouting(externalService: ExternalService) {
             } catch (e: Exception) {
                 call.respondText(
                     "Failed to fetch Ollama data: ${e.message}",
+                    status = HttpStatusCode.InternalServerError,
+                )
+            }
+        }
+
+        // Route for fetching data from Snowflake
+        get("/data") {
+            try {
+                val privateKey = SnowflakeClient.getPrivateKey()
+                SnowflakeClient.getConnection(privateKey).use { connection ->
+                    val dao = SnowflakeDAO(connection)
+                    val data = dao.fetchData("SELECT * FROM PRAMEYADB.METADATA.ZIPCODE_CITY_STATE WHERE DELIVERY_ZIPCODE = '02062'") // Replace with your query
+                    call.respond(HttpStatusCode.OK, data)
+                }
+            } catch (e: Exception) {
+                call.respondText(
+                    "Failed to fetch data: ${e.message}",
                     status = HttpStatusCode.InternalServerError,
                 )
             }

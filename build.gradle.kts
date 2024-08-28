@@ -65,6 +65,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-html-builder-jvm")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion")
+    implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     implementation("io.ktor:ktor-server-netty-jvm")
 
     // Datastore
